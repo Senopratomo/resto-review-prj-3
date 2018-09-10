@@ -1,0 +1,27 @@
+# local project config
+config/local.js
+
+# 
+
+# IDE
+.idea
+
+# Node.js and bower modules
+node_modules
+bower_components
+lib-cov
+*.seed
+*.log
+*.out
+*.pid
+npm-debug.log
+
+# Misc
+
+*~
+*#
+.DS_STORE
+.netbeans
+nbproject
+.idea
+.node_history

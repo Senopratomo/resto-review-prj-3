@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <!-- meta viewport tag to control the width and scaling of the browser's viewport. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <link rel="stylesheet" href="css/styles.css">
+  <title>Restaurant Reviews</title>
+</head>
+
+<body>
+  <!-- Skip links to "Filter" section and skip map -->
+  <a href="#neighborhoods-select" class="skip-link">Skip to Filter section to start searching</a>
+  <!-- wrapper to contain all sections -->
+  <div class="container">
+    <!-- header -->
+    <header>
+      <nav class="nav">
+        <h1><a href="/">Restaurant Reviews</a></h1>
+      </nav>
+    </header>
+
+    <!-- main -->
+    <!-- aria role for accessibility -->
+    <main id="maincontent" role="main">
+      <!-- map section -->
+      <section id="map-container">
+        <!-- use aria hidden to disable tab-navigation on the map, add role, and provide label for accessibility -->
+        <div id="map" role="application" aria-label="Maps containing all restaurants in nearby location" aria-hidden="true"></div>
+      </section>
+      <!-- filter section -->
+      <section>
+        <!-- filter input fields -->
+        <div class="filter-options">
+          <h2>Filters</h2>
+          <!-- add aria label for accessibility -->
+          <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" aria-label="Select neighborhood">
+            <option value="all">All Neighborhoods</option>
+          </select>
+          <!-- add aria label for accessibility -->
+          <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" aria-label="Select type of cuisine">
+            <option value="all">All Cuisines</option>
+          </select>
+        </div>
+        <!-- list of restaurant based on the filter -->
+        <ul id="restaurants-list"></ul>
+      </section>
+    </main>
+
+    <!-- footer -->
+    <footer id="footer">
+      <p class="footer-text">Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.</p>
+    </footer>
+  </div>
+  <script type="application/javascript" charset="utf-8" src="js/idb.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBG5hos7jM1PqIXv94ISC5zh3fPPeMXoGg&libraries=places&callback=initMap"></script>
+  <script>
+      if('serviceWorker' in navigator) {
+          console.log('Service worker is supported.');
+          navigator.serviceWorker
+              .register('/sw.js')
+              .then(() =>{ console.log("Service Worker Registered"); })
+              .catch(error => { console.log(`Service Worker Registration failed with ${error}`)});
+      } else {
+          console.log('Service worker is NOT supported.');
+      }
+
+  </script>
+</body>
+
+</html>
