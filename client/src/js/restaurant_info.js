@@ -68,7 +68,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillRestaurantHoursHTML();
   }
   // fill reviews
-  fillReviewsHTML();
+  fetchReviews();
 }
 
 /**
@@ -90,6 +90,23 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     hours.appendChild(row);
   }
 }
+
+const fetchReviews = () => {
+  const restaurantID = parseInt(getParameterByName("id"));
+  if (!restaurantID) {
+    return;
+  }
+
+  DBHelper.fetchReviews(restaurantID, (err, reviews) => {
+    self.reviews = reviews;
+    if (err || !reviews) {
+      return;
+    }
+
+    fillReviewsHTML(reviews);
+  });
+};
+
 
 /**
  * Create all reviews HTML and add them to the webpage.
@@ -122,9 +139,15 @@ createReviewHTML = (review) => {
   name.innerHTML = review.name;
   li.appendChild(name);
 
-  const date = document.createElement('p');
-  date.innerHTML = review.date;
-  li.appendChild(date);
+  const cDate = document.createElement('p');
+  const createdAt = new Date(review.createdAt).toLocaleDateString("en-US");
+  cDate.innerHTML = `Created: ${createdAt}`;
+  li.appendChild(cDate);
+
+  const uDate = document.createElement('p');
+  const updatedAt = new Date(review.createdAt).toLocaleDateString("en-US");
+  uDate.innerHTML = `Updated: ${updatedAt}`;
+  li.appendChild(uDate);
 
   const rating = document.createElement('p');
   rating.innerHTML = `Rating: ${review.rating}`;
@@ -148,6 +171,81 @@ fillBreadcrumb = (restaurant=self.restaurant) => {
   li.setAttribute('aria-current', 'page');
   breadcrumb.appendChild(li);
 }
+
+/**
+* Review submission form
+*/
+
+const reviewForm = document.querySelector('#add-review-form');
+reviewForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const rating = reviewForm.querySelector('#rating');
+
+    const reviewObj = {
+        restaurant_id: parseInt(getParameterByName('id')),
+        name: reviewForm.querySelector('#name').value,
+        rating: rating.options[rating.selectedIndex].value,
+        comments: reviewForm.querySelector('#review-comment').value,
+    }
+
+    DBHelper.addReview(reviewObj, (error) => {
+        if (error) {
+            console.log(error);
+        }
+    }).then(data => {
+        const reviewList = document.querySelector('#reviews-list');
+        reviewObj.createdAt = + new Date();
+        reviewObj.updatedAt = + new Date();
+        reviewList.appendChild(createReviewHTML(reviewObj));
+        reviewForm.reset();
+    }).catch(e => console.log(e))
+});
+
+window.addEventListener('online', e => {
+    e.preventDefault();
+    DBHelper.openIDBConnection().then(async db => {
+      if (!db) {
+        return;
+      }
+      const tx = db.transaction('reviewOffline', "readwrite");
+      const store = tx.objectStore('reviewOffline');
+      const req = await store.openCursor();
+
+      const onSuccess = function(event) {
+        const cursor = this.result;
+        if (cursor) {
+          const newReviewObj = {
+            restaurant_id: parseInt(cursor.value.restaurant_id),
+            name: cursor.value.name,
+            rating: cursor.value.rating,
+            comments: cursor.value.comments,
+          }
+          // POST cursor value
+          fetch(
+              `http://localhost:1337/reviews/${cursor.value.restaurant_id}`,
+              {
+                method: 'POST',
+                body: JSON.stringify(newReviewObj),
+                headers: {
+                  'content-type': 'application/json'
+                }
+              }
+           ).then(res => res.json).catch(err => console.log(err))
+          // PUT into the other objectStore
+          DBHelper.saveToIDB(newReviewObj, 'review');
+
+          // DELETE item from idb
+          store.delete(cursor.key);
+          cursor.continue();
+        } else {
+          console.log(`No entries in: reviewOffline`);
+        }
+      }
+
+      req._request.onsuccess = onSuccess;
+      req._request.onsuccess();
+    })
+});
 
 /**
  * Get a parameter by name from page URL.
