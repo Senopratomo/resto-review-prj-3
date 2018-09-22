@@ -34,7 +34,6 @@ self.addEventListener('install', e => {
                 `/img/10.jpg`,
                 `/img/favicon-32x32.png`,
                 `/img/favicon-32x32.png`,
-                `http://localhost:1337/restaurants/`,
                 `https://fonts.googleapis.com/css?family=Roboto:300,400,500,700`
 
             ])

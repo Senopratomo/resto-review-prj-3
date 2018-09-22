@@ -137,6 +137,8 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  * Create restaurant HTML.
  */
 createRestaurantHTML = (restaurant) => {
+  const currRestaurantID = restaurant.id;
+
   const li = document.createElement('li');
 
   const image = document.createElement('img');
@@ -157,6 +159,41 @@ createRestaurantHTML = (restaurant) => {
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
   li.append(address);
+
+  const favorite = document.createElement("button");
+  favorite.className = "restaurant-favorite";
+  favorite.id = `fav-${restaurant.id}`;
+  favorite.innerHTML = '❤';
+  favorite.onclick = toggleFavorite;
+
+  console.log('is favorite: '+ restaurant.is_favorite);
+  if (restaurant.is_favorite) {
+    favorite.classList.add('favorite_yes');
+    favorite.classList.remove('favorite_no');
+    favorite.setAttribute('aria-label', 'remove as favorite');
+  } else {
+    favorite.classList.add('favorite_no');
+    favorite.classList.remove('favorite_yes');
+    favorite.setAttribute('aria-label', 'mark as favorite');
+  }
+
+  li.append(favorite);
+
+  function toggleFavorite() {
+    if (favorite.classList.contains('favorite_yes')) {
+      favorite.classList.remove('favorite_yes');
+      favorite.classList.add('favorite_no');
+      favorite.setAttribute('aria-label', 'remove as favorite');
+      // Send fetch to favor
+      DBHelper.setFavorite(currRestaurantID, false);
+    } else {
+      favorite.classList.remove('favorite_no');
+      favorite.classList.add('favorite_yes');
+      favorite.setAttribute('aria-label', 'mark as favorite');
+      // Send fetch to unfavor
+      DBHelper.setFavorite(currRestaurantID, true);
+    }
+  }
 
   const more = document.createElement('a');
   more.innerHTML = 'View Details';

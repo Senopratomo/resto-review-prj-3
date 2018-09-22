@@ -146,6 +146,24 @@ class DBHelper {
     });
   }
 
+  static setFavorite(resto_id, fav) {
+    dbPromise = DBHelper.openDatabase();
+    fetch(`http://localhost:1337/restaurants/${resto_id}/?is_favorite=${fav}`, {method: 'PUT'}
+      ).then(() => {
+        console.log('changed');
+        this.dbPromise
+            .then(db => {
+                const tx = db.transaction('resto', 'readwrite');
+                const restaurantsStore = tx.objectStore('resto');
+                restaurantsStore.get(resto_id)
+                    .then(restaurant => {
+                        restaurant.is_favorite = fav;
+                        restaurantsStore.put(restaurant);
+                    });
+            })
+    }).catch(err => console.log(err));
+  }
+
   /**
    * Show cached restaurants stored in IDB
    */
