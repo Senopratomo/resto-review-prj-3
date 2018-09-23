@@ -21,7 +21,7 @@
           "Sunday": "12:00 pm - 4:00 pm, 5:30 pm - 11:00 pm"
         },
         "createdAt": 1504095563444,
-        "updatedAt": "2018-09-22T07:25:01.707Z",
+        "updatedAt": "2018-09-23T07:40:47.523Z",
         "id": 1,
         "is_favorite": "false"
       },
@@ -45,8 +45,8 @@
           "Sunday": "12:00 pm - 3:00 pm, 5:00 pm - 11:00 pm"
         },
         "createdAt": 1504095568414,
-        "updatedAt": "2018-09-22T07:15:18.927Z",
-        "is_favorite": "true",
+        "updatedAt": "2018-09-23T06:40:33.785Z",
+        "is_favorite": "false",
         "id": 2
       },
       {
@@ -246,20 +246,20 @@
       {
         "id": 1,
         "restaurant_id": 1,
-        "name": "Steve",
+        "name": "Ernest",
         "createdAt": 1504095567183,
-        "updatedAt": 1504095567183,
-        "rating": 4,
-        "comments": "Mission Chinese Food has grown up from its scrappy Orchard Street days into a big, two story restaurant equipped with a pizza oven, a prime rib cart, and a much broader menu. Yes, it still has all the hits â€” the kung pao pastrami, the thrice cooked bacon â€”but chef/proprietor Danny Bowien and executive chef Angela Dimayuga have also added a raw bar, two generous family-style set menus, and showstoppers like duck baked in clay. And you can still get a lot of food without breaking the bank."
+        "updatedAt": "2018-09-23T06:29:01.101Z",
+        "rating": "5",
+        "comments": "Good food and ambiance"
       },
       {
         "id": 2,
-        "restaurant_id": 1,
-        "name": "Morgan",
+        "restaurant_id": 2,
+        "name": "Carmen",
         "createdAt": 1504095567183,
-        "updatedAt": 1504095567183,
-        "rating": "4",
-        "comments": "This place is a blast. Must orders: GREEN TEA NOODS, sounds gross (to me at least) but these were incredible!, Kung pao pastrami (but you already knew that), beef tartare was a fun appetizer that we decided to try, the spicy ma po tofu SUPER spicy but delicous, egg rolls and scallion pancake i could have passed on... I wish we would have gone with a larger group, so much more I would have liked to try!"
+        "updatedAt": "2018-09-23T07:01:46.594Z",
+        "rating": "2",
+        "comments": "I only like Chinese food!"
       },
       {
         "id": 3,
@@ -521,6 +521,15 @@
         "createdAt": "2018-09-17T05:35:27.261Z",
         "updatedAt": "2018-09-17T05:35:27.261Z",
         "id": 31
+      },
+      {
+        "restaurant_id": 1,
+        "name": "Alina",
+        "rating": "4",
+        "comments": "yummy yummy",
+        "createdAt": "2018-09-23T06:30:26.511Z",
+        "updatedAt": "2018-09-23T06:30:26.511Z",
+        "id": 32
       }
     ]
   },
@@ -576,7 +585,7 @@
       "id": 10
     },
     "reviews": {
-      "id": 31
+      "id": 32
     }
   }
 }

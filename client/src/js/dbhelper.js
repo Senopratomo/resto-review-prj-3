@@ -86,7 +86,7 @@ class DBHelper {
    * Fetch all reviews.
    */
   static fetchReviews(id, callback) {
-    DBHelper.fetchCachedReviews().then(function(data){
+    DBHelper.fetchCachedReviews(id).then(function(data){
       // if we have data from cache , serve the object from cache.
         if(data.length > 0){
           return callback(null , data);
@@ -151,7 +151,7 @@ class DBHelper {
     fetch(`http://localhost:1337/restaurants/${resto_id}/?is_favorite=${fav}`, {method: 'PUT'}
       ).then(() => {
         console.log('changed');
-        this.dbPromise
+        this.openDatabase()
             .then(db => {
                 const tx = db.transaction('resto', 'readwrite');
                 const restaurantsStore = tx.objectStore('resto');
@@ -324,6 +324,32 @@ class DBHelper {
         // Remove duplicates from cuisines
         const uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) == i)
         callback(null, uniqueCuisines);
+      }
+    });
+  }
+
+  /**
+   * Send offline review data when online
+   */
+  static sendOfflineDataOnceOnline(offline_obj) {
+    console.log('Offline OBJ', offline_obj);
+    localStorage.setItem('data', JSON.stringify(offline_obj.data));
+    console.log(`Local Storage: ${offline_obj.object_type} stored`);
+    window.addEventListener('online', (event) => {
+      console.log('Browser: Online again!');
+      let data = JSON.parse(localStorage.getItem('data'));
+      console.log('updating and cleaning ui');
+      [...document.querySelectorAll(".reviews_offline")].forEach(el => {
+        el.classList.remove("reviews_offline");
+        el.querySelector(".offline_label").remove();
+      });
+      if (data !== null) {
+        if (offline_obj.name === 'addReview') {
+          DBHelper.addReview(offline_obj.data);
+        }
+        console.log('LocalState: data sent to api');
+        localStorage.removeItem('data');
+        console.log(`Local Storage: ${offline_obj.object_type} removed`);
       }
     });
   }

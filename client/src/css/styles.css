@@ -255,14 +255,6 @@ nav h1 a {
   color: #d73030;
 }
 
-.favorite_yes:hover {
-  color: #4c4c4c;
-}
-
-.favorite_no:hover {
-  color: #d73030;
-}
-
 .favorite_no {
   color: #4c4c4c;
 }
@@ -392,6 +384,21 @@ nav h1 a {
           0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 
 }
+
+.reviews_offline {
+  border-bottom: 3px solid red !important;
+}
+
+.offline_label{
+  text-align: center;
+  text-transform: uppercase;
+  color: white;
+  box-sizing: border-box;
+  padding: 5px;
+  background-color: firebrick;
+  width: 100%;
+}
+
 #reviews-list li p {
   margin: 10px 0 10px;
 }

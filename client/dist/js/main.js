@@ -166,8 +166,7 @@ createRestaurantHTML = (restaurant) => {
   favorite.innerHTML = '❤';
   favorite.onclick = toggleFavorite;
 
-  console.log('is favorite: '+ restaurant.is_favorite);
-  if (restaurant.is_favorite) {
+  if (restaurant.is_favorite === "true") {
     favorite.classList.add('favorite_yes');
     favorite.classList.remove('favorite_no');
     favorite.setAttribute('aria-label', 'remove as favorite');

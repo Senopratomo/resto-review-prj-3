@@ -135,6 +135,14 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
+  if (!navigator.onLine) {
+    const connection_status = document.createElement('p');
+    connection_status.classList.add('offline_label')
+      connection_status.innerHTML = "Offline"
+      li.classList.add("reviews_offline")
+      li.appendChild(connection_status);
+  }
+
   const name = document.createElement('p');
   name.innerHTML = review.name;
   li.appendChild(name);
@@ -203,7 +211,7 @@ reviewForm.addEventListener('submit', e => {
 
 window.addEventListener('online', e => {
     e.preventDefault();
-    DBHelper.openIDBConnection().then(async db => {
+    DBHelper.openDatabase().then(async db => {
       if (!db) {
         return;
       }
@@ -241,9 +249,11 @@ window.addEventListener('online', e => {
           console.log(`No entries in: reviewOffline`);
         }
       }
+      if(req) {
+        req._request.onsuccess = onSuccess;
+        req._request.onsuccess();
+      }
 
-      req._request.onsuccess = onSuccess;
-      req._request.onsuccess();
     })
 });
 
