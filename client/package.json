@@ -16,6 +16,7 @@
     "gulp-uglify": "^3.0.1"
   },
   "devDependencies": {
-    "gulp-real-favicon": "^0.3.0"
+    "gulp-real-favicon": "^0.3.0",
+    "gulp-webp": "^3.0.0"
   }
 }

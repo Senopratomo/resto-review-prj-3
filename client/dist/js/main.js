@@ -166,31 +166,27 @@ createRestaurantHTML = (restaurant) => {
   favorite.innerHTML = '❤';
   favorite.onclick = toggleFavorite;
 
-  if (restaurant.is_favorite === "true") {
-    favorite.classList.add('favorite_yes');
-    favorite.classList.remove('favorite_no');
-    favorite.setAttribute('aria-label', 'remove as favorite');
-  } else {
-    favorite.classList.add('favorite_no');
-    favorite.classList.remove('favorite_yes');
-    favorite.setAttribute('aria-label', 'mark as favorite');
-  }
+  console.log(`restaurant id ${restaurant.id} is favorite ${restaurant.is_favorite}`);
+  updateFavElement(favorite, restaurant.is_favorite);
 
   li.append(favorite);
 
   function toggleFavorite() {
-    if (favorite.classList.contains('favorite_yes')) {
-      favorite.classList.remove('favorite_yes');
-      favorite.classList.add('favorite_no');
-      favorite.setAttribute('aria-label', 'remove as favorite');
-      // Send fetch to favor
-      DBHelper.setFavorite(currRestaurantID, false);
+      const isFavorite = !restaurant.is_favorite;
+      DBHelper.setFavorite(restaurant.id, isFavorite);
+      restaurant.is_favorite = !restaurant.is_favorite
+      updateFavElement(favorite, restaurant.is_favorite)
+  }
+  
+  function updateFavElement(element, favorite) {
+    if (!favorite) {
+      element.classList.remove('favorite_yes');
+      element.classList.add('favorite_no');
+      element.setAttribute('aria-label', 'mark as favorite');
     } else {
-      favorite.classList.remove('favorite_no');
-      favorite.classList.add('favorite_yes');
-      favorite.setAttribute('aria-label', 'mark as favorite');
-      // Send fetch to unfavor
-      DBHelper.setFavorite(currRestaurantID, true);
+      element.classList.remove('favorite_no');
+      element.classList.add('favorite_yes');
+      element.setAttribute('aria-label', 'remove as favorite');
     }
   }
 

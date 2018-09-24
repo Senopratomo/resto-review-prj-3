@@ -86,41 +86,40 @@ class DBHelper {
    * Fetch all reviews.
    */
   static fetchReviews(id, callback) {
-    DBHelper.fetchCachedReviews(id).then(function(data){
-      // if we have data from cache , serve the object from cache.
-        if(data.length > 0){
-          return callback(null , data);
+    if(!navigator.onLine) {
+      DBHelper.fetchCachedReviews(id).then(function(data) {
+        // if we have data from cache , serve the object from cache.
+        if (data.length > 0) {
+          return callback(null, data);
         }
-        // Populate the cache by fetching restaurants from the server.
-        fetch(`${DBHelper.DATABASE_URL_REVIEWS}${id}`)
-            .then(res => {
-              console.log('res fetched is: ', res);
-              return res.json()})
-            .then(data => {
-              dbPromise.then(function(db){
-                if(!db) return db;
-                console.log('data fetched is: ', data);
-                const tx = db.transaction('review' , 'readwrite');
-                const store = tx.objectStore('review');
-
-                data.forEach(review => store.put(review));
-
-                // limit the data for 20
-                store.openCursor(null , 'prev').then(function(cursor){
-                  return cursor.advance(20);
-                })
-                .then(function deleteRest(cursor){
-                  if(!cursor) return;
-                  cursor.delete();
-                  return cursor.continue().then(deleteRest);
-                });
-              });
-              return callback(null,data);
-            })
-            .catch(err => {
-              return callback(err , null)
+      });
+    }
+    // Populate the cache by fetching restaurants from the server.
+    fetch(`${DBHelper.DATABASE_URL_REVIEWS}${id}`).then(res => {
+      console.log('res fetched is: ', res);
+      return res.json()})
+        .then(data => {
+          DBHelper.openDatabase().then(function(db){
+            if(!db) return db;
+            console.log('data fetched is: ', data);
+            const tx = db.transaction('review' , 'readwrite');
+            const store = tx.objectStore('review');
+            data.forEach(review => store.put(review));
+            // limit the data for 20
+            store.openCursor(null , 'prev').then(function(cursor){
+              return cursor.advance(20);
+            }).then(function deleteRest(cursor){
+              if(!cursor) return;
+              cursor.delete();
+              return cursor.continue().then(deleteRest);
             });
-    });
+          });
+          return callback(null,data);
+        })
+        .catch(err => {
+          return callback(err , null)
+        });
+
   }
 
   static addReview(data, callback) {
@@ -150,7 +149,7 @@ class DBHelper {
     dbPromise = DBHelper.openDatabase();
     fetch(`http://localhost:1337/restaurants/${resto_id}/?is_favorite=${fav}`, {method: 'PUT'}
       ).then(() => {
-        console.log('changed');
+        console.log(`resto ${resto_id} fav status changed to ${fav}`);
         this.openDatabase()
             .then(db => {
                 const tx = db.transaction('resto', 'readwrite');
@@ -365,7 +364,7 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}.jpg`);
+    return (`/img/${restaurant.photograph}.webp`);
   }
 
   /**

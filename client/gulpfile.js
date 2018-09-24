@@ -1,13 +1,13 @@
-var gulp = require('gulp');
-var browserSync = require('browser-sync').create();
-var realFavicon = require ('gulp-real-favicon');
-var fs = require('fs');
+const gulp = require('gulp');
+const browserSync = require('browser-sync').create();
+const realFavicon = require ('gulp-real-favicon');
+const fs = require('fs');
 // File where the favicon markups are stored
-var FAVICON_DATA_FILE = 'faviconData.json';
-
+const FAVICON_DATA_FILE = 'faviconData.json';
+const webp = require('gulp-webp');
 
 // gulp default that will execute all tasks related to watching change and copying change to dist
-gulp.task('default', ['copy-html','inject-favicon-markups', 'copy-images', 'copy-styles', 'copy-js', 'copy-sw'], function() {
+gulp.task('default', ['copy-html','inject-favicon-markups','convert-image', 'copy-images', 'copy-styles', 'copy-js', 'copy-sw'], function() {
     gulp.watch('src/css/*.css', ['copy-styles']);
     gulp.watch('src/js/*.js', ['copy-js']);
     gulp.watch('src/index.html', ['copy-html','inject-favicon-markups']);
@@ -29,6 +29,11 @@ gulp.task('dist', [
     'copy-js'
 ]);
 
+gulp.task('convert-image', function () {
+    gulp.src('src/img/*.jpg')
+        .pipe(webp())
+        .pipe(gulp.dest('dist/img'));
+});
 // task to copy js from src to dist
 gulp.task('copy-js', function() {
     gulp.src('src/js/*.js')
@@ -44,7 +49,7 @@ gulp.task('copy-html', function() {
 
 // task to copy images from src to dist
 gulp.task('copy-images', function() {
-    gulp.src('src/img/*')
+    gulp.src('src/img/*.png')
         .pipe(gulp.dest('dist/img'));
 });
 
