@@ -230,7 +230,7 @@ window.addEventListener('online', e => {
           }
           // POST cursor value
           fetch(
-              `http://localhost:1337/reviews/${cursor.value.restaurant_id}`,
+              `http://localhost:1337/reviews`,
               {
                 method: 'POST',
                 body: JSON.stringify(newReviewObj),

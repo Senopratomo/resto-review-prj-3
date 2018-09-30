@@ -21,7 +21,7 @@
           "Sunday": "12:00 pm - 4:00 pm, 5:30 pm - 11:00 pm"
         },
         "createdAt": 1504095563444,
-        "updatedAt": "2018-09-24T05:11:37.723Z",
+        "updatedAt": "2018-09-30T05:33:07.105Z",
         "id": 1,
         "is_favorite": "false"
       },
@@ -46,7 +46,7 @@
         },
         "createdAt": 1504095568414,
         "updatedAt": "2018-09-24T05:13:47.978Z",
-        "is_favorite": "false",
+        "is_favorite": false,
         "id": 2
       },
       {
@@ -70,7 +70,7 @@
         },
         "createdAt": 1504095571434,
         "updatedAt": "2018-09-24T05:11:27.600Z",
-        "is_favorite": "false",
+        "is_favorite": false,
         "id": 3
       },
       {
@@ -255,11 +255,11 @@
       {
         "id": 2,
         "restaurant_id": 2,
-        "name": "Carmen",
+        "name": "Ernest",
         "createdAt": 1504095567183,
-        "updatedAt": "2018-09-23T07:01:46.594Z",
-        "rating": "2",
-        "comments": "I only like Chinese food!"
+        "updatedAt": "2018-09-30T05:39:19.497Z",
+        "rating": "5",
+        "comments": "I love pizza!"
       },
       {
         "id": 3,
@@ -530,6 +530,24 @@
         "createdAt": "2018-09-23T06:30:26.511Z",
         "updatedAt": "2018-09-23T06:30:26.511Z",
         "id": 32
+      },
+      {
+        "restaurant_id": 2,
+        "name": "Alina",
+        "rating": "5",
+        "comments": "i love pizza too",
+        "createdAt": "2018-09-30T05:55:33.120Z",
+        "updatedAt": "2018-09-30T05:55:33.120Z",
+        "id": 33
+      },
+      {
+        "restaurant_id": 10,
+        "name": "Ernest",
+        "rating": "3",
+        "comments": "So so Mexican food...need to invest more to food ..",
+        "createdAt": "2018-09-30T06:50:00.006Z",
+        "updatedAt": "2018-09-30T06:50:00.006Z",
+        "id": 34
       }
     ]
   },
@@ -585,7 +603,7 @@
       "id": 10
     },
     "reviews": {
-      "id": 32
+      "id": 34
     }
   }
 }

@@ -179,7 +179,7 @@ createRestaurantHTML = (restaurant) => {
   }
   
   function updateFavElement(element, favorite) {
-    if (!favorite) {
+    if (!favorite || favorite === "false") {
       element.classList.remove('favorite_yes');
       element.classList.add('favorite_no');
       element.setAttribute('aria-label', 'mark as favorite');
