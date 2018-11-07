@@ -1,8 +1,12 @@
 /**
  * RestaurantsController
  *
- * @description :: Server-side logic for managing restaurants
- * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
+ * @description :: Server-side actions for handling incoming requests.
+ * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-module.exports = {};
+module.exports = {
+  
+
+};
+

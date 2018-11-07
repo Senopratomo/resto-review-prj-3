@@ -1,25 +1,38 @@
 {
-  "name": "Restaurant-Reviews",
+  "name": "restaurants-api",
   "private": true,
   "version": "0.0.0",
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
-    "include-all": "^1.0.0",
-    "rc": "1.0.1",
-    "sails": "^0.12.13",
-    "sails-disk": "~0.10.9"
+    "sails": "^1.0.2",
+    "grunt": "1.0.3",
+    "sails-hook-grunt": "^3.0.2",
+    "sails-hook-orm": "^2.0.0-16",
+    "sails-hook-sockets": "^1.4.0",
+    "@sailshq/connect-redis": "^3.2.1",
+    "@sailshq/socket.io-redis": "^5.2.0",
+    "@sailshq/lodash": "^3.10.3",
+    "async": "2.6.1"
+  },
+  "devDependencies": {
+    "@sailshq/eslint": "^4.19.3"
   },
   "scripts": {
-    "debug": "node debug app.js",
-    "start": "node app.js"
+    "start": "SET NODE_ENV=production;\n node app.js",
+    "test": "npm run lint && npm run custom-tests && echo 'Done.'",
+    "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
+    "custom-tests": "echo \"(No other custom tests yet.)\" && echo",
+    "reset-db": "utils/generate-restaurants.js > .tmp/localDiskDb/restaurants.db && utils/generate-reviews.js > .tmp/localDiskDb/reviews.db"
   },
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/brandy/Restaurant-Reviews.git"
+    "url": "git://github.com/fbusquet/restaurants-api.git"
   },
-  "author": "Brandy Lee Camacho",
-  "linkedIn": "https://www.linkedin.com/in/brandycamacho/",
-  "email": "brandy@udacity.com"
+  "author": "fbusquet",
+  "license": "",
+  "engines": {
+    "node": ">=8.11"
+  }
 }
